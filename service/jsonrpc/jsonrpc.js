@@ -11,24 +11,24 @@ Client.prototype.call=function (method, params, callback, errback) {
 	let requestJson;
 
 	//封装rpcjson 参数
-	if(Array.isArray(method)) {//多个命令
-		requestJson = [];
-		method.forEach(function (batchCall, i) {
-			//jsonrpc params {id, method, params}
-			requestJson.push({
-				id:time+'-'+i,
-				method:batchCall.method,
-				params:batchCall.params
-			})
-		})
-
-	} else {//单个命令
+	// if(Array.isArray(method)) {//多个命令
+	// 	requestJson = [];
+	// 	method.forEach(function (batchCall, i) {
+	// 		//jsonrpc params {id, method, params}
+	// 		requestJson.push({
+	// 			id:time+'-'+i,
+	// 			method:batchCall.method,
+	// 			params:batchCall.params
+	// 		})
+	// 	})
+	//
+	// } else {//单个命令
 		requestJson = {
 			id:time,
 			method:method,
 			params:params
 		}
-	}
+	// }
 	requestJson = JSON.stringify(requestJson);
 
 	//http请求参数
@@ -123,11 +123,11 @@ Client.prototype.call=function (method, params, callback, errback) {
 			}
 
 			//如果是单返回值
-			if(!Array.isArray(decode)) {
-				decode = [decode]
-			}
-
-			decode.forEach(function (decodedResponse, i) {
+			// if(!Array.isArray(decode)) {
+			// 	decode = [decode]
+			// }
+				decodedResponse = decode
+			// decode.forEach(function (decodedResponse, i) {
 				if(decodedResponse.hasOwnProperty('error') && decodedResponse.error!= null) {
 					if(errback) {
 						console.log(decodedResponse.error);
@@ -150,7 +150,7 @@ Client.prototype.call=function (method, params, callback, errback) {
 					  errback(err)
 					}
 				}
-			})
+			// })
 		})
 	})
 	request.end(requestJson)
