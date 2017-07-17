@@ -25,6 +25,6 @@ module.exports.proxy = function proxy(url, callback) {
 
 }
 
-module.exports.updateAll = function proxy(url, callback) {
+module.exports.updateAll = function updateAll(callback) {
 	ClientFactory.updateAll(callback);
 }

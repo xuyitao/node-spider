@@ -20,10 +20,9 @@ exports.dir = function () {
 
 
 exports.update = function (version, callback) {
-	console.log('proConfig.version='+ proConfig.version);
-	console.log('version='+version);
+	if(callback) callback(null, version);
 	if(version != proConfig.version) {
-	var cmdStr = 'git pull';
+		let cmdStr = 'git pull';
 		exec(cmdStr, function(err,stdout,stderr){
 	    if(err) {
 	      console.log('update error:'+stderr);
@@ -31,8 +30,5 @@ exports.update = function (version, callback) {
 	      console.log(stdout);
 	    }
 		});
-	} else {
-		callback(version);
 	}
-
 }

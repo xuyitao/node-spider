@@ -111,19 +111,18 @@ ClientFactory.prototype.heart = function () {
 	})
 }
 
-ClientFactory.prototype.updateAll = function () {
+ClientFactory.prototype.updateAll = function (callback) {
 	let clientVaild = this.clientVaild;
 	console.log('===========ClientFactory updateAll ===========');
 	let promises = _.map(clientVaild, function (tmpclient) {
 		return new Promise(function (resolve,reject) {
 			let client = makeClient(tmpclient.host, tmpclient.port)
-			console.log('proConfig.version='+proConfig.version);
 			client.cmd('update', proConfig.version, function (err, result) {
 				console.log('result='+result);
 				if(err) {
 					resolve(false)
 				} else {
-					resolve(true)
+					resolve(result)
 				}
 			})
 		})
@@ -133,16 +132,11 @@ ClientFactory.prototype.updateAll = function () {
 		_.each(results, function (result, i) {
 			let client = clientVaild[i];
 			// client.info();
-			if(result) {
-				console.log(`${client.name()}---------update`);
-			} else {
-				console.log(`${client.name()}---------not update`);
-			}
-
+			console.log(`${client.name()}---------update result=`+result);
 		})
-
+		if(callback) callback(true);
 		console.log('===========ClientFactory updateAll finish===========');
-	}.bind(this)).catch(function (err) {
+	}).catch(function (err) {
 		console.log(err);
 		console.log('===========ClientFactory updateAll finish===========');
 	})

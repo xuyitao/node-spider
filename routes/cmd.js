@@ -20,6 +20,7 @@ router.post('/cmd', function(req, res, next) {
   console.log(`cmd  method=${method}  params=${params} id=${id}`);
   if(typeof cmd[method] === 'function') {
     cmd[method](params, function (err, result) {
+      console.log('result='+result);
       res.send(makeResult(err, result, id));
     })
   } else {
