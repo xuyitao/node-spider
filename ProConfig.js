@@ -29,7 +29,7 @@ if(this.isService()) {
 		port:'2000'
 	},{
 		host:'127.0.0.1',
-		port:'3002'
+		port:'80'
 	}
 	]);
 
