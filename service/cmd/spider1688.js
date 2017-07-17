@@ -118,7 +118,8 @@ function get1688Request(targetUrl) {
             'Accept-Language':'zh-CN,zh;q=0.8',
             'Accept-Encoding':'gzip, deflate, sdch',
             'Accept': "*/*",
-            'Connection':'keep-alive'
+            'Connection':'keep-alive',
+            maxRedirects:3
             // 'Referer':'https://detail.tmall.com/item.htm?id='+id
         }
     };

@@ -23,11 +23,9 @@ if(this.isService()) {
 	//初始化客户端列表
 	var clientFactory = new ClientFactory([{
 		host:'127.0.0.1',
-		port:'3000'
-	},{
-		host:'127.0.0.1',
-		port:'2000'
-	},{
+		port:'3002'
+	}
+	,{
 		host:'127.0.0.1',
 		port:'80'
 	}

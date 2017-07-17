@@ -10,7 +10,7 @@ router.get('/', function(req, res, next) {
 
 function makeResult(err, result, id) {
   return {result:result,
-          error:err,
+          error:err && err.message,
           id:id};
 }
 
@@ -24,7 +24,7 @@ router.post('/cmd', function(req, res, next) {
       res.send(makeResult(err, result, id));
     })
   } else {
-    res.send(makeResult(new Error("it's not function "+"method"), null, id));
+    res.send(makeResult(new Error("it's not function =》"+method), null, id));
   }
 });
 

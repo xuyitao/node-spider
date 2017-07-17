@@ -2,7 +2,7 @@ module.exports = {
   apps : [{
     name        : "spider",
     script      : "./bin/www",
-    watch       : false,
+    watch       : true,
 		log_file: "./logs/combined.outerr.log",
 		out_file: "./logs/out.log",
 		error_file: "./logs/err.log",
