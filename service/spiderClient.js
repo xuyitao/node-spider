@@ -24,3 +24,7 @@ module.exports.proxy = function proxy(url, callback) {
 	jclient.cmd('proxy', url, callback);
 
 }
+
+module.exports.updateAll = function proxy(url, callback) {
+	ClientFactory.updateAll(callback);
+}

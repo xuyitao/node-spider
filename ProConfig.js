@@ -3,6 +3,7 @@
 var debug = require('debug')('node-spider:config'),
 		schedule = require('node-schedule'),
 		cmd=require('./service/cmd'),
+		config = require("./package.json"),
 		ClientFactory = require('./service/ClientFactory');
 
 console.log(`service process.env.DTYPE=${process.env.DTYPE}`);
@@ -15,6 +16,8 @@ exports.isService=function isService() {
 exports.isClient=function isClient() {
 	return dtype && dtype === 'service' ? false : true;
 }
+
+exports.version= config.version;
 
 if(this.isService()) {
 	//初始化客户端列表
@@ -41,5 +44,3 @@ if(this.isService()) {
 
 	});
 }
-
-cmd.dir();

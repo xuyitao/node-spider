@@ -1,6 +1,7 @@
 
 var _ = require('underscore')._,
-		rpc = require('./jsonrpc');
+		rpc = require('./jsonrpc'),
+		proConfig = require('../ProConfig');
 
 function ClientInfo(host, port) {
 	this.host = host;
@@ -107,6 +108,43 @@ ClientFactory.prototype.heart = function () {
 	}.bind(this)).catch(function (err) {
 		console.log(err);
 		console.log('===========ClientFactory heart finish===========');
+	})
+}
+
+ClientFactory.prototype.updateAll = function () {
+	let clientVaild = this.clientVaild;
+	console.log('===========ClientFactory updateAll ===========');
+	let promises = _.map(clientVaild, function (tmpclient) {
+		return new Promise(function (resolve,reject) {
+			let client = makeClient(tmpclient.host, tmpclient.port)
+			console.log('proConfig.version='+proConfig.version);
+			client.cmd('update', proConfig.version, function (err, result) {
+				console.log('result='+result);
+				if(err) {
+					resolve(false)
+				} else {
+					resolve(true)
+				}
+			})
+		})
+	})
+	Promise.all(promises).then(function (results) {
+		console.log('results='+results);
+		_.each(results, function (result, i) {
+			let client = clientVaild[i];
+			// client.info();
+			if(result) {
+				console.log(`${client.name()}---------update`);
+			} else {
+				console.log(`${client.name()}---------not update`);
+			}
+
+		})
+
+		console.log('===========ClientFactory updateAll finish===========');
+	}.bind(this)).catch(function (err) {
+		console.log(err);
+		console.log('===========ClientFactory updateAll finish===========');
 	})
 }
 
