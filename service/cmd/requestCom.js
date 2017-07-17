@@ -41,7 +41,6 @@ var requestWithEncoding = exports.requestWithEncoding = function (options, callb
   var req = request.get(options).on('error', function(err) {
 			callback(err);
 		});
-
   req.on('response', function(res) {
     var chunks = [];
     res.on('data', function(chunk) {

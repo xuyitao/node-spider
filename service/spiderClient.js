@@ -14,7 +14,7 @@ function makeClient() {
 		path:'/api/cmd',
 		user:'qq123',
 		pass:'123',
-		timeout:3000
+		timeout:15000
 	}, sClient);
 }
 
@@ -23,6 +23,16 @@ module.exports.proxy = function proxy(url, callback) {
 	let jclient = makeClient();
 	jclient.cmd('proxy', url, callback);
 
+}
+
+module.exports.itemDetail = function itemDetail(url, callback) {
+	let jclient = makeClient();
+	jclient.cmd('itemDetail', url, callback);
+}
+
+module.exports.s1688 = function s1688(url, callback) {
+	let jclient = makeClient();
+	jclient.cmd('s1688', url, callback);
 }
 
 module.exports.updateAll = function updateAll(callback) {

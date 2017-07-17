@@ -20,7 +20,7 @@ router.post('/cmd', function(req, res, next) {
   console.log(`cmd  method=${method}  params=${params} id=${id}`);
   if(typeof cmd[method] === 'function') {
     cmd[method](params, function (err, result) {
-      console.log('result='+result);
+      console.log(`result=${result}  err=${err}`);
       res.send(makeResult(err, result, id));
     })
   } else {
@@ -28,9 +28,5 @@ router.post('/cmd', function(req, res, next) {
   }
 });
 
-router.get('/heart', function(req, res, next) {
-  console.log('cmd heart');
-  res.send(makeResult(null, true, id));
-});
 
 module.exports = router;
