@@ -3,8 +3,9 @@ var rpc = require('./jsonrpc')
 // ===----------------------------------------------------------------------===//
 // Client
 // ===----------------------------------------------------------------------===//
-function Client(opts) {
+function Client(opts, sClient) {
 	this.rpc = new rpc.Client(opts);
+	this.sClient = sClient;
 }
 
 

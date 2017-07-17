@@ -1,5 +1,6 @@
 
-var _ = require('underscore')._;
+var _ = require('underscore')._,
+		rpc = require('./jsonrpc');
 
 function ClientInfo(host, port) {
 	this.host = host;
@@ -14,6 +15,10 @@ ClientInfo.prototype.info = function () {
 		handlerCount=${this.handlerCount}  failCount=${this.failCount}`);
 }
 
+ClientInfo.prototype.name = function () {
+	return `${this.host}:${this.port}`
+}
+
 function ClientFactory(clients) {
 	console.log('===========ClientFactory init===========');
 	this.clientTotal=_.map(clients, function (tmpClient, i) {
@@ -23,17 +28,86 @@ function ClientFactory(clients) {
 		}
 	});
 
-	console.log(`ClientFactory init this.clientTotal=${this.clientTotal.length}`);
 	this.clientVaild = [];
 	this.info();
-	console.log('===========ClientFactory init end ===========');
+	console.log('===========ClientFactory init finish ===========');
+
+	this.heart();
 }
 
-ClientFactory.prototype.info = function () {
+function info() {
+	console.log('=====total client ');
 	_.each(this.clientTotal, function (tmpclient) {
 		tmpclient.info();
 	})
+	console.log('=====valid client ');
+	_.each(this.clientVaild, function (tmpclient) {
+		tmpclient.info();
+	})
+}
 
+ClientFactory.prototype.info = info;
+
+ClientFactory.prototype.getsClient = function () {
+	let sClient = _.min(this.clientVaild, function(client){ return client.lastTime; });
+	// sClient.info();
+	sClient.lastTime = new Date();
+	sClient.handlerCount += 1;
+	return sClient;
+
+}
+
+
+
+function makeClient(host, port) {
+	return new rpc.Client({
+		host:host,
+		port:port,
+		path:'/api/cmd',
+		user:'qq123',
+		pass:'123',
+		timeout:3000
+	});
+}
+
+ClientFactory.prototype.heart = function () {
+	let clientTotal = this.clientTotal;
+	console.log('===========ClientFactory heart ===========');
+	let promises = _.map(clientTotal, function (tmpclient) {
+		return new Promise(function (resolve,reject) {
+			let client = makeClient(tmpclient.host, tmpclient.port)
+			client.cmd('heart', function (err, result) {
+				if(err) {
+					console.log(err);
+					resolve(false)
+				} else {
+					resolve(true)
+				}
+			})
+		})
+	})
+	Promise.all(promises).then(function (results) {
+		console.log('results='+results);
+		let tmpVailds = [];
+		_.each(results, function (result, i) {
+			let client = clientTotal[i];
+			// client.info();
+			if(result) {
+				console.log(`${client.name()}---------valid`);
+				tmpVailds.push(client);
+			} else {
+				console.log(`${client.name()}---------invalid`);
+			}
+
+		})
+
+		this.clientVaild=tmpVailds;
+		// this.info()
+		console.log('===========ClientFactory heart finish===========');
+	}.bind(this)).catch(function (err) {
+		console.log(err);
+		console.log('===========ClientFactory heart finish===========');
+	})
 }
 
 module.exports = ClientFactory;

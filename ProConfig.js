@@ -1,31 +1,45 @@
 
 
-var proArgs = process.argv.splice(2);
 var debug = require('debug')('node-spider:config'),
+		schedule = require('node-schedule'),
+		cmd=require('./service/cmd'),
 		ClientFactory = require('./service/ClientFactory');
 
-var type=proArgs[0];
-debug(`service type=${type}`);
+console.log(`service process.env.DTYPE=${process.env.DTYPE}`);
+var dtype = process.env.DTYPE;
 exports.isService=function isService() {
-	return type && type === 'client' ? false : true;;
+	return dtype && dtype === 'client' ? false : true;;
 }
 
 
 exports.isClient=function isClient() {
-	return type && type === 'service' ? false : true;
+	return dtype && dtype === 'service' ? false : true;
 }
 
+if(this.isService()) {
+	//初始化客户端列表
+	var clientFactory = new ClientFactory([{
+		host:'127.0.0.1',
+		port:'3000'
+	},{
+		host:'127.0.0.1',
+		port:'2000'
+	},{
+		host:'127.0.0.1',
+		port:'3002'
+	}
+	]);
 
-//初始化客户端列表
-let clientFactory = new ClientFactory([{
-	host:'127.0.0.1',
-	port:'3000'
-},{
-	host:'127.0.0.1',
-	port:'3000'
-}
-]);
+	exports.getClientFactory = function getClientFactory() {
+		return clientFactory;
+	}
 
-exports.getClientFactory = function getClientFactory() {
-	return clientFactory;
+	var j = schedule.scheduleJob('*/1 * * * *', function(){
+		debug('schedule service valid');
+		// console.log('this.clientFactory='+getClientFactory());
+		clientFactory.heart();
+
+	});
 }
+
+cmd.dir();

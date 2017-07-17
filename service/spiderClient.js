@@ -1,22 +1,26 @@
-var rpc = require('./jsonrpc')
+var rpc = require('./jsonrpc'),
+		ClientFactory = require('../ProConfig').getClientFactory();
+
 
 function makeClient() {
+	let sClient = ClientFactory.getsClient();
+	if(sClient==null || !sClient.host || !sClient.port) {
+		return null;
+	}
+
 	return new rpc.Client({
-		host:'localhost',
-		port:3000,
+		host:sClient.host,
+		port:sClient.port,
 		path:'/api/cmd',
 		user:'qq123',
 		pass:'123',
 		timeout:3000
-	});
+	}, sClient);
 }
 
-function proxy(url, callback) {
+module.exports.proxy = function proxy(url, callback) {
 
 	let jclient = makeClient();
 	jclient.cmd('proxy', url, callback);
 
 }
-
-
-module.exports.proxy = proxy;

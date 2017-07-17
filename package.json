@@ -4,8 +4,8 @@
   "private": true,
   "scripts": {
     "start": "nodemon ./bin/www",
-    "servcie": "nodemon ./bin/www service",
-    "client": "nodemon ./bin/www service",
+    "servcie": "pm2 start pm2service.config.js --env production",
+    "client":"pm2 start pm2client.config.js --env production",
     "test": "mocha test/**/*.js"
   },
   "dependencies": {
@@ -15,6 +15,7 @@
     "ejs": "~2.3.3",
     "express": "~4.13.1",
     "morgan": "~1.6.1",
+    "node-schedule": "^1.2.3",
     "request": "^2.81.0",
     "serve-favicon": "~2.3.0",
     "underscore": "^1.8.3"

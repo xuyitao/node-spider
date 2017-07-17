@@ -105,9 +105,9 @@ Client.prototype.call=function (method, params, callback, errback) {
 			if(cbCalled) return ;
 			cbCalled = true;
 			try {
-				console.log('buffer='+buffer);
+				// console.log('buffer='+buffer);
 				var decode = JSON.parse(buffer)
-				console.log('decode='+JSON.stringify(decode));
+				// console.log('decode='+JSON.stringify(decode));
 			} catch(e) {
 				//http非正常请求
 				if(response.statusCode !== 200) {
@@ -126,7 +126,7 @@ Client.prototype.call=function (method, params, callback, errback) {
 			// if(!Array.isArray(decode)) {
 			// 	decode = [decode]
 			// }
-				decodedResponse = decode
+				decodedResponse = decode;
 			// decode.forEach(function (decodedResponse, i) {
 				if(decodedResponse.hasOwnProperty('error') && decodedResponse.error!= null) {
 					if(errback) {

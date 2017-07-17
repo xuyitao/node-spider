@@ -12,7 +12,6 @@ router.get('/proxy', function(req, res, next) {
   console.log(`proxy  url=${url}`);
   sClient.proxy(url ,function (err, result, resHeaders) {
     console.log(err);
-    console.log(result);
     if(err) {
       res.send(err);
     } else {
