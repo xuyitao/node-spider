@@ -6,6 +6,7 @@
     "start": "nodemon ./bin/www",
     "servcie": "pm2 start pm2service.config.js --env production",
     "client": "pm2 start pm2client.config.js --env production",
+    "del":"pm2 delete all",
     "test": "mocha test/**/*.js"
   },
   "dependencies": {

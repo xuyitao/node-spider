@@ -1,6 +1,6 @@
 module.exports = {
   apps : [{
-    name        : "spider",
+    name        : "sClient",
     script      : "./bin/www",
     watch       : true,
 		log_file: "./logs/combined.outerr.log",
