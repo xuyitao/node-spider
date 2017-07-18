@@ -2,10 +2,10 @@ module.exports = {
   apps : [{
     name        : "sClient",
     script      : "./bin/www",
-    watch       : true,
-		log_file: "../logs/combined.outerr.log",
-		out_file: "../logs/out.log",
-		error_file: "../logs/err.log",
+    watch       : false,
+		log_file: "./logs/combined.outerr.log",
+		out_file: "./logs/out.log",
+		error_file: "./logs/err.log",
 		node_args:"--max-old-space-size=512",
     env: {
       "NODE_ENV": "development",
