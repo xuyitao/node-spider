@@ -22,8 +22,8 @@ exports.version= config.version;
 if(this.isService()) {
 	//初始化客户端列表
 	var clientFactory = new ClientFactory([{
-		host:'127.0.0.1',
-		port:'3002'
+		host:'tks32.owngiftc.com',
+		port:'80'
 	}
 	,{
 		host:'127.0.0.1',
